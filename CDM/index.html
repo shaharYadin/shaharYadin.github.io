@@ -60,7 +60,7 @@
 
 		<!-- top - author names, affiliation and links -->
 		<center>
-			<h1>Classification Diffusion Models</h1>
+			<h1>Classification Diffusion Models: <br>Revitalizing Density Ratio Estimation</h1>
 			<div class="container">
 				<div class="row justify-content-md-center">
 					<div class="col-md-auto">
@@ -98,9 +98,9 @@
 		<h1 class="burger_h1">Abstract</h1>
 		</center>
 		<p>
-			A prominent family of methods for learning data distributions relies on density ratio estimation (DRE), where a model is trained to <b>classify</b> between data samples and samples from some reference distribution. These techniques are successful in simple low-dimensional settings but fail to achieve good results on complex high-dimensional data, like images. A different family of methods for learning distributions is that of denoising diffusion models (DDMs), in which a model is trained to <b>denoise</b> data samples. These approaches achieve state-of-the-art results in  image, video, and audio generation.
-			In this work, we present <b>Classification Diffusion Models</b> (CDMs), a generative technique that adopts the denoising-based formalism of DDMs while making use of a classifier that predicts the amount of noise added to a clean signal, similarly to DRE methods. Our approach is based on the observation that an MSE-optimal denoiser for white Gaussian noise can be expressed in terms of the gradient of a cross-entropy-optimal classifier for predicting the noise level.
-			As we illustrate, CDM achieves better denoising results compared to DDM, and leads to at least comparable FID in image generation. CDM is also capable of highly efficient one-step exact likelihood estimation, achieving state-of-the-art results among methods that use a single step.
+			A prominent family of methods for learning data distributions relies on density ratio estimation (DRE), where a model is trained to <b>classify</b> between data samples and samples from some reference distribution. DRE-based models can directly output the likelihood for any given input, a highly desired property that is lacking in most generative techniques. Nevertheless, to date, DRE methods have struggled to accurately capture the distributions of complex high-dimensional data like images, which led to reduced research attention over the years.  
+			In this work we present <b>classification diffusion models</b> (CDMs), a DRE-based generative method that adopts the formalism of denoising diffusion models (DDMs) while making use of a classifier that predicts the level of noise added to a clean signal. Our method is based on an analytical connection that we derive between an MSE-optimal denoiser for white Gaussian noise and a cross-entropy-optimal classifier for predicting the noise level. To the best of our knowledge, our method is the first DRE-based technique that can successfully generate images. 
+			Furthermore, it can output the likelihood of any input in a single forward pass, achieving state-of-the-art negative log likelihood (NLL) among methods with this property.		
 		</p>
 		<!-- end abstract-->
 
@@ -108,15 +108,14 @@
 		<hr id="overview">
 		<center><h1 class="burger_h1">Overview</h1></center>
 		<p>
-			We introduce a diffusion based generative model that relies on a classifier for predicting the amount of white Gaussian noise added to clean samples. Our method relies on a theoretical relation between the optimal such classifier and the minimum-MSE denoiser for removing white Gaussian noise from samples.
-			DDM functions as an MSE denoiser conditioned on the noise level, whereas CDM operates as a classifier. Given a noisy image, CDM outputs a probability vector predicting the noise level, such that the $t$-th element in this vector is the probability that the noise level of the image corresponds to timestep $t$ in the diffusion. To obtain the clean image with CDM, the MMSE denoiser is obtained as the gradient of the probability vector w.r.t the input image.
-		</p>
+			DDMs are based on minimum-MSE (MMSE) <b>denoising</b>, while DRE methods hinge on optimal <b>classification</b>. In this work, we develop a connection between the optimal classifier for predicting the level of white Gaussian noise added to a data sample, and the MMSE denoiser for cleaning such noise. Specifically, we show that the latter can be obtained from the gradient of the former. Utilizing this connection, we propose <b>classification diffusion model</b> (CDM), a generative method that combines the formalism of DDMs, but instead of a denoiser, employs a noise-level classifier. CDM is the first instance of a DRE-based method that can successfully generate images beyond MNIST. 
+			In addition, as a DRE method, CDM is inherently capable of outputting the exact log-likelihood in a single NFE. In fact, it achieves state-of-the-art negative-log-likelihood (NLL) results among methods that use a single NFE, and comparable results to computationally-expensive ODE-based methods. 
 		<center>
 			<h2 style="margin-top: 10px;"></h2>
 			<div class="container">
 				<div class="row justify-content-md-center">
 					<div class="col-md-auto" style="padding: 1px;">
-						<img alt="" src="./resources/arch_v4.png" class="resimage"/>
+						<img alt="" src="./resources/arch_v5.png" class="resimage"/>
 					</div>
 				</div>
 			</div>
